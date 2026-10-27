@@ -1,0 +1,42 @@
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: var(--gap-col-x);
+  row-gap: var(--gap-row-y);
+  padding: clamp(57px, 10.4vw, 125px) var(--space-page-x) 0;
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.heading {
+  margin: 0 0 var(--col-heading-mb);
+  font-size: var(--fs-col-heading);
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.lead {
+  margin: 0 0 0.75em;
+  font-size: var(--fs-body);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.body {
+  margin: 0;
+  font-size: var(--fs-body);
+  font-weight: 400;
+  line-height: 1.5;
+  opacity: 0.8;
+}
+
+.servicesCol {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}

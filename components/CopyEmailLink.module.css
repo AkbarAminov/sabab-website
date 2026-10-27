@@ -1,0 +1,36 @@
+.wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.toast {
+  position: absolute;
+  left: calc(100% + 0.6em);
+  top: 50%;
+  transform: translateY(-50%) translateY(4px);
+  padding: 0.3em 0.7em;
+  border-radius: 999px;
+  background: var(--cream);
+  color: var(--brick-top);
+  font-size: 0.75em;
+  font-weight: 500;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
+}
+
+.toastVisible {
+  opacity: 1;
+  transform: translateY(-50%) translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast {
+    transform: translateY(-50%);
+  }
+  .toastVisible {
+    transform: translateY(-50%);
+  }
+}

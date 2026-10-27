@@ -1,0 +1,173 @@
+/* ---------------------------------------------------------------------- *
+ * Design tokens
+ * All sizes fluid between a 360px and 1920px viewport via clamp().
+ * ---------------------------------------------------------------------- */
+:root {
+  --brick-top: #782f1e;
+  --brick-bottom: #4a160c;
+  --cream: #eae2d8;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.35s;
+
+  --fs-button: clamp(10px, 0.1282vw + 9.5385px, 12px);
+  --fs-lang: clamp(10px, 0.1282vw + 9.5385px, 12px);
+  --fs-col-heading: clamp(10px, 0.0962vw + 9.6538px, 11.5px);
+  --fs-body: clamp(13.5px, 0.1923vw + 12.8077px, 16.5px);
+  --fs-mobile-cta: clamp(11px, 0.1282vw + 10.5385px, 13px);
+
+  --space-page-x: clamp(20px, 2.8205vw + 9.8462px, 64px);
+  --space-page-y-top: clamp(18px, 1.4103vw + 12.9231px, 40px);
+
+  --gap-col-x: clamp(32px, 3.5897vw + 19.0771px, 88px);
+  --gap-row-y: clamp(28px, 1.2821vw + 23.3846px, 48px);
+  --gap-header: clamp(14px, 0.8974vw + 10.7692px, 28px);
+  --col-heading-mb: clamp(10px, 0.5128vw + 8.1538px, 18px);
+
+  --logo-header-w: clamp(150px, 5.1282vw + 131.5385px, 230px);
+  --cursor-size: 20px;
+  --cursor-dot-size: clamp(78px, 1.6667vw + 72px, 104px);
+  --cursor-interactive-fill: #471c12;
+  --sabab-min-h: clamp(90px, 21.1538vw + 13.8462px, 420px);
+
+  color-scheme: dark;
+}
+
+/* ---------------------------------------------------------------------- *
+ * Reset & base
+ * ---------------------------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: linear-gradient(to bottom, var(--brick-top), var(--brick-bottom));
+  background-attachment: fixed;
+  color: var(--cream);
+  font-family: var(--font-inter), -apple-system, "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+a {
+  color: inherit;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+svg {
+  display: block;
+}
+
+/* The round custom cursor (CustomCursor.tsx) replaces the system one on
+   hover-capable, fine-pointer devices — including under reduced motion,
+   where it still tracks the pointer (just without the trailing lerp). The
+   list of selectors (rather than just `body`) is deliberate: `button` has
+   its own `cursor: pointer` from the reset above, which would otherwise win
+   over an inherited value. */
+@media (hover: hover) and (pointer: fine) {
+  html,
+  a,
+  button,
+  [role="button"] {
+    cursor: none;
+  }
+}
+
+::selection {
+  background: var(--cream);
+  color: var(--brick-top);
+}
+
+/* ---------------------------------------------------------------------- *
+ * Focus — identical in spirit to hover: a visible cream outline, never
+ * suppressed. Components additionally mirror their own :hover rules onto
+ * :focus-visible so the two states look the same.
+ * ---------------------------------------------------------------------- */
+:focus {
+  outline: none;
+}
+
+:focus-visible {
+  outline: 1.5px solid var(--cream);
+  outline-offset: 3px;
+  border-radius: 1px;
+}
+
+/* ---------------------------------------------------------------------- *
+ * Entrance reveal (staggered fade + rise on load)
+ * ---------------------------------------------------------------------- */
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-up-big {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.reveal {
+  animation: reveal-up 0.6s var(--ease) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+.revealBig {
+  animation: reveal-up-big 0.7s var(--ease) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+/* ---------------------------------------------------------------------- *
+ * Reduced motion: keep only color/background transitions; everything
+ * transform- or keyframe-based is removed and content is shown in its
+ * final state immediately.
+ * ---------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    /* Hover/focus states still change color, just without eased motion
+       (skew, scaleY fills, etc. snap instead of animating). */
+    --dur: 0.001s;
+  }
+
+  .reveal,
+  .revealBig {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}

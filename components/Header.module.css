@@ -1,0 +1,48 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: clamp(12px, 4vw, 32px);
+  padding: var(--space-page-y-top) var(--space-page-x) 0;
+}
+
+.logoLink {
+  display: block;
+  flex: 0 0 auto;
+}
+
+.logo {
+  display: block;
+  width: var(--logo-header-w);
+  height: auto;
+  transition: filter var(--dur) var(--ease);
+}
+
+.logoLink:hover .logo,
+.logoLink:focus-visible .logo {
+  filter: brightness(0.82);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.6vw, 16px);
+  flex: 0 0 auto;
+}
+
+/* Full label on larger screens, short label once things get tight. */
+.full {
+  display: inline;
+}
+.short {
+  display: none;
+}
+
+@media (max-width: 560px) {
+  .full {
+    display: none;
+  }
+  .short {
+    display: inline;
+  }
+}

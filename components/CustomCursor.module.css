@@ -1,0 +1,56 @@
+.wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  pointer-events: none;
+}
+
+.cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  border-radius: 50%;
+  background: var(--cream);
+  color: var(--brick-top);
+  text-align: center;
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  transition:
+    opacity 0.25s var(--ease),
+    transform 0.25s var(--ease),
+    background-color 0.25s var(--ease),
+    width 0.25s var(--ease),
+    height 0.25s var(--ease);
+}
+
+.visible {
+  opacity: 1;
+}
+
+.interactive {
+  transform: translate(-50%, -50%) scale(0.9);
+  background: var(--cursor-interactive-fill);
+}
+
+.expanded {
+  width: var(--cursor-dot-size);
+  height: var(--cursor-dot-size);
+}
+
+.arrowIcon {
+  display: block;
+  width: 42%;
+  height: auto;
+}
+
+/* Comes last so it wins the cascade over .interactive regardless of which
+   is also applied — a momentary press always snaps to the same scale. */
+.pressed {
+  transform: translate(-50%, -50%) scale(0.8);
+}
