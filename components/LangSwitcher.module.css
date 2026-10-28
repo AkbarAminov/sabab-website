@@ -26,7 +26,7 @@
   right: 0;
   z-index: 10;
   margin: 0;
-  padding: 6px;
+  padding: 4px;
   list-style: none;
   min-width: 100%;
   background: var(--cream);
@@ -35,8 +35,11 @@
 }
 
 .option {
-  display: block;
-  padding: 0.6em 1em;
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 1em;
   border-radius: 1px;
   color: var(--brick-top);
   font-size: var(--fs-lang);
@@ -48,6 +51,22 @@
   transition: background var(--dur) var(--ease);
 }
 
+/* The row is visually 32px, but touch targets stay reachable: an invisible
+   ::before extends the actual hit area to 40px without touching the visible
+   box (background/hover still apply to .option's own 32px, not this). Scoped
+   to touch (hover: none) so mouse users don't get overlapping hit zones
+   between adjacent rows that could make :hover feel imprecise. */
+@media (hover: none) {
+  .option::before {
+    content: "";
+    position: absolute;
+    top: -4px;
+    bottom: -4px;
+    left: 0;
+    right: 0;
+  }
+}
+
 .option:hover,
 .option:focus-visible {
   background: rgb(0 0 0 / 0.1);
@@ -55,4 +74,27 @@
 
 .optionActive {
   font-weight: 700;
+}
+
+/* "bar" variant: used for the mobile bottom-bar trigger (square, opens
+   upward). Comes after the base rules above so it reliably wins the cascade
+   when both classes land on the same element, regardless of specificity. */
+.triggerBar {
+  aspect-ratio: 1 / 1;
+  height: 100%;
+  padding: 0;
+  flex: 0 0 auto;
+}
+
+.triggerBar .caret {
+  transform: rotate(-135deg) translateY(15%);
+}
+
+.triggerBar[aria-expanded="true"] .caret {
+  transform: rotate(45deg) translateY(-25%);
+}
+
+.menuUp {
+  top: auto;
+  bottom: calc(100% + 8px);
 }

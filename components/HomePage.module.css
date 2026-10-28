@@ -4,6 +4,18 @@
   flex-direction: column;
 }
 
+.mobileSababTop {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .mobileSababTop {
+    display: block;
+    width: 100%;
+    padding: calc(env(safe-area-inset-top, 0px) + 20px) clamp(20px, 5vw, 24px) 0;
+  }
+}
+
 .sababSection {
   position: relative;
   flex: 1 1 auto;
@@ -14,33 +26,8 @@
   padding: 0 var(--space-page-x);
 }
 
-/* Below the mobile breakpoint the sabab word is hidden (see
-   SababWord.module.css's .link), so this is the section's only remaining
-   flex item — align-items: flex-end then puts it exactly where the word
-   used to sit, wide but still inset by the section's own side padding
-   rather than bleeding off the screen edges. */
-.mobilePortfolio {
-  display: none;
-}
-
-@media (max-width: 560px) {
-  .mobilePortfolio {
-    display: block;
-    width: 100%;
-    margin-bottom: 20px;
+@media (max-width: 767px) {
+  .sababSection {
+    display: none;
   }
-}
-
-.mobilePortfolioBtn {
-  width: 100%;
-  justify-content: center;
-}
-
-/* Higher-specificity descendant selector so these win over .btn's own
-   `padding`/`font-size` regardless of CSS Modules bundling order — same
-   width, just a shorter tap target with fluid, viewport-scaled type. */
-.mobilePortfolio .mobilePortfolioBtn {
-  padding-top: 0.85em;
-  padding-bottom: 0.85em;
-  font-size: clamp(14px, 4vw, 17px);
 }

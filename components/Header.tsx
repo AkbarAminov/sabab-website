@@ -30,11 +30,9 @@ export default function Header({
       </a>
 
       <div className={styles.actions}>
-        <span className={styles.desktopPortfolio}>
-          <PdfLink kind="portfolio" locale={locale} className={interactive.btn}>
-            {dict.header.portfolio}
-          </PdfLink>
-        </span>
+        <PdfLink kind="portfolio" locale={locale} className={interactive.btn}>
+          {dict.header.portfolio}
+        </PdfLink>
 
         <LangSwitcher locale={locale} aria={dict.header.langSwitch.aria} />
       </div>

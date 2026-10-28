@@ -1,0 +1,17 @@
+.bar {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .bar {
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 12px);
+  }
+}
+
+.portfolioBtn {
+  flex: 1 1 auto;
+  justify-content: center;
+}

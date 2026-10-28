@@ -1,4 +1,13 @@
 .header {
+  /* Explicit stacking context + z-index: the header also carries the global
+     .reveal entrance animation, whose "both" fill-mode leaves a resting
+     `transform: translateY(0)` on it — a transform value, even an identity
+     one, creates its own stacking context. Without an explicit z-index here,
+     that trapped context gets compared to sibling sections purely by DOM
+     order, so content below the header (e.g. InfoGrid) can paint over the
+     bottom of the open language dropdown and swallow taps meant for it. */
+  position: relative;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -30,16 +39,10 @@
   flex: 0 0 auto;
 }
 
-/* Below the mobile breakpoint the portfolio button moves out of the header
-   entirely (see HomePage.module.css's .mobilePortfolio) — `display: contents`
-   keeps this wrapper transparent to the `.actions` flex layout while it's
-   shown, so hiding it doesn't leave a gap where it used to be. */
-.desktopPortfolio {
-  display: contents;
-}
-
-@media (max-width: 560px) {
-  .desktopPortfolio {
+/* Below 768px the navbar gives way to the mobile layout (giant word up top,
+   portfolio + language bar pinned to the bottom) — see HomePage.tsx. */
+@media (max-width: 767px) {
+  .header {
     display: none;
   }
 }

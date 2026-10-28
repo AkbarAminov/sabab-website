@@ -25,14 +25,6 @@
   }
 }
 
-/* On mobile the word gives way entirely to the portfolio button pinned to
-   the same bottom spot (see HomePage.module.css's .mobilePortfolio). */
-@media (max-width: 560px) {
-  .link {
-    display: none;
-  }
-}
-
 .svg {
   display: block;
   width: 100%;

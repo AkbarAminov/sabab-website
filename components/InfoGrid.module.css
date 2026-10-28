@@ -6,6 +6,16 @@
   padding: clamp(57px, 10.4vw, 125px) var(--space-page-x) 0;
 }
 
+/* Below 768px this is the page's only growable flex child (the desktop
+   word/header that normally do this job are display: none there), so it
+   needs to be the one that expands to push the bottom bar down to the
+   screen edge on short content, while still scrolling normally past it. */
+@media (max-width: 767px) {
+  .grid {
+    flex: 1 1 auto;
+  }
+}
+
 @media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);

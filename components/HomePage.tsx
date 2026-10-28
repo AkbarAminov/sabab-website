@@ -1,39 +1,40 @@
 import styles from "./HomePage.module.css";
-import interactive from "./interactive.module.css";
 import Header from "./Header";
 import InfoGrid from "./InfoGrid";
-import PdfLink from "./PdfLink";
 import SababWord from "./SababWord";
+import MobileBottomBar from "./MobileBottomBar";
 import CustomCursor from "./CustomCursor";
 import type { Dictionary, Locale } from "@/lib/dictionary";
 
 /**
- * The entire one-page layout: header, four-column text block, giant sabab
- * word. Shared verbatim between the RU route ("/") and the EN route
- * ("/en") — only `dict`/`locale` change.
- *
- * The portfolio button lives in the header at tablet width and up; below the
- * mobile breakpoint it moves here instead and replaces the sabab word
- * entirely, taking over the same bottom-pinned spot (see
- * Header.module.css's .desktopPortfolio for the other half of that swap).
+ * The page layout. Desktop/tablet (≥768px, unchanged): navbar, three-column
+ * text block, giant sabab word pinned to the bottom. Below 768px the layout
+ * is rearranged instead of just scaled: the giant word moves to the top
+ * (replacing the navbar — see .mobileSababTop/Header's own 767px rule), the
+ * same three-column block stays in the middle, and a bottom bar with the
+ * portfolio button + language switcher replaces the desktop word slot (see
+ * MobileBottomBar / .sababSection's 767px rule). Both variants of the word
+ * and both variants of the portfolio/language controls render in the DOM at
+ * all times — CSS `display: none` toggles which set shows, so there's no
+ * client-side breakpoint check and therefore no hydration flash.
  */
 export default function HomePage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
   return (
     <div className={styles.page}>
       <Header dict={dict} locale={locale} delayIndex={0} />
+
+      <div className={styles.mobileSababTop}>
+        <SababWord dict={dict} delayIndex={0} />
+      </div>
+
       <InfoGrid dict={dict} locale={locale} startDelayIndex={1} />
+
       <div className={styles.sababSection}>
         <SababWord dict={dict} delayIndex={4} />
-        <div className={styles.mobilePortfolio}>
-          <PdfLink
-            kind="portfolio"
-            locale={locale}
-            className={`${interactive.btn} ${styles.mobilePortfolioBtn}`}
-          >
-            {dict.header.portfolio}
-          </PdfLink>
-        </div>
       </div>
+
+      <MobileBottomBar dict={dict} locale={locale} />
+
       <CustomCursor />
     </div>
   );
