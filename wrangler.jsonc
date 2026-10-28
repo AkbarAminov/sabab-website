@@ -1,0 +1,47 @@
+{
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"main": ".open-next/worker.js",
+	"name": "sabab-website",
+	"compatibility_date": "2026-10-27",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"services": [
+		{
+			// Self-reference service binding, the service name must match the worker name
+			// see https://opennext.js.org/cloudflare/caching
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "sabab-website"
+		}
+	],
+	"images": {
+		// Enable image optimization
+		// see https://opennext.js.org/cloudflare/howtos/image
+		"binding": "IMAGES"
+	},
+	"r2_buckets": [
+		{
+			// Portfolio/services PDFs.
+			"binding": "FILES",
+			"bucket_name": "sabab-files"
+		}
+	],
+	"d1_databases": [
+		{
+			// Open-tracking stats.
+			"binding": "DB",
+			"database_name": "sabab-db",
+			"database_id": "1da401de-9e9c-4cab-9ece-8133821f3c75",
+			"migrations_dir": "migrations"
+		}
+	],
+	"routes": [
+		{ "pattern": "sababbranding.com", "custom_domain": true },
+		{ "pattern": "www.sababbranding.com", "custom_domain": true }
+	]
+}

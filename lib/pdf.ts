@@ -1,40 +1,47 @@
-import { existsSync } from "fs";
-import { readFile } from "fs/promises";
-import path from "path";
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import type { Locale } from "./dictionary";
 
 export type PdfKind = "portfolio" | "services";
 
-// PDFs live outside /public so they're only reachable through these route
-// handlers (never as a static /files/* URL), and so a missing file 404s
-// instead of silently serving nothing.
-const FILES_DIR = path.join(process.cwd(), "files");
+// PDFs live in R2 (bucket sabab-files, binding FILES) rather than in the
+// repo, so they're only reachable through these route handlers — never as a
+// static URL — and a missing object falls through to /soon instead of
+// silently serving nothing. See README "Cloudflare" for how to upload them.
+export async function servePdf(kind: PdfKind, locale: Locale, request: Request): Promise<Response> {
+  const { env, ctx } = await getCloudflareContext({ async: true });
 
-export async function servePdf(kind: PdfKind, locale: Locale): Promise<Response> {
-  let filename = `${kind}-${locale}.pdf`;
-  let filePath = path.join(FILES_DIR, filename);
-
-  // Fall back to the Russian file if a localized one hasn't been supplied yet.
-  if (locale !== "ru" && !existsSync(filePath)) {
-    filename = `${kind}-ru.pdf`;
-    filePath = path.join(FILES_DIR, filename);
+  // R2 isn't bound yet (e.g. the bucket hasn't been created/enabled on this
+  // account) — fail open to /soon instead of a 500.
+  if (!env.FILES) {
+    return Response.redirect(new URL(`/soon?locale=${locale}`, request.url), 307);
   }
 
-  if (!existsSync(filePath)) {
-    return new Response(
-      `PDF not found. Place the file at /files/${kind}-ru.pdf (and optionally /files/${kind}-en.pdf).`,
-      { status: 404, headers: { "Content-Type": "text/plain; charset=utf-8" } },
-    );
+  let key = `${kind}-${locale}.pdf`;
+  let object = await env.FILES.get(key);
+
+  // Fall back to the Russian file until a localized version is uploaded.
+  if (!object && locale !== "ru") {
+    key = `${kind}-ru.pdf`;
+    object = await env.FILES.get(key);
   }
 
-  const data = await readFile(filePath);
-  const body = new Uint8Array(data);
+  if (!object) {
+    return Response.redirect(new URL(`/soon?locale=${locale}`, request.url), 307);
+  }
 
-  return new Response(body, {
+  // Logged after the file is confirmed to exist — a /soon redirect isn't a
+  // real "open". Runs via waitUntil so the insert can't delay the response.
+  ctx.waitUntil(
+    env.DB.prepare("INSERT INTO opens (file, locale, country) VALUES (?1, ?2, ?3)")
+      .bind(kind, locale, request.headers.get("cf-ipcountry") ?? "unknown")
+      .run(),
+  );
+
+  return new Response(object.body, {
     status: 200,
     headers: {
       "Content-Type": "application/pdf",
-      "Content-Disposition": `inline; filename="${filename}"`,
+      "Content-Disposition": `inline; filename="${key}"`,
       "Cache-Control": "public, max-age=0, must-revalidate",
     },
   });

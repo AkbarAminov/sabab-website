@@ -80,43 +80,27 @@ export default function SababWord({
   }, [wellActive]);
 
   return (
-    <>
-      <a
-        ref={containerRef}
-        href={INSTAGRAM_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={styles.link}
-        style={delayStyle}
-        aria-label={dict.sababWord.ariaLabel}
-        data-cursor-arrow
-      >
-        <svg
-          className={styles.svg}
-          viewBox={SABAB_VIEWBOX}
-          role="img"
-          aria-hidden="true"
-        >
-          {SABAB_PATHS.map((d, i) => (
-            <path
-              key={i}
-              ref={(node) => {
-                pathRefs.current[i] = node;
-              }}
-              d={d}
-            />
-          ))}
-        </svg>
-      </a>
-      <a
-        href={INSTAGRAM_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        className={`${styles.mobileCta} reveal`}
-        style={delayStyle}
-      >
-        {dict.sababWord.mobileCta}
-      </a>
-    </>
+    <a
+      ref={containerRef}
+      href={INSTAGRAM_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={styles.link}
+      style={delayStyle}
+      aria-label={dict.sababWord.ariaLabel}
+      data-cursor-arrow
+    >
+      <svg className={styles.svg} viewBox={SABAB_VIEWBOX} role="img" aria-hidden="true">
+        {SABAB_PATHS.map((d, i) => (
+          <path
+            key={i}
+            ref={(node) => {
+              pathRefs.current[i] = node;
+            }}
+            d={d}
+          />
+        ))}
+      </svg>
+    </a>
   );
 }

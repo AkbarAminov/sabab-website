@@ -30,19 +30,16 @@
   flex: 0 0 auto;
 }
 
-/* Full label on larger screens, short label once things get tight. */
-.full {
-  display: inline;
-}
-.short {
-  display: none;
+/* Below the mobile breakpoint the portfolio button moves out of the header
+   entirely (see HomePage.module.css's .mobilePortfolio) — `display: contents`
+   keeps this wrapper transparent to the `.actions` flex layout while it's
+   shown, so hiding it doesn't leave a gap where it used to be. */
+.desktopPortfolio {
+  display: contents;
 }
 
 @media (max-width: 560px) {
-  .full {
+  .desktopPortfolio {
     display: none;
-  }
-  .short {
-    display: inline;
   }
 }

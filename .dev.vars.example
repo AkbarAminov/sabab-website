@@ -1,0 +1,4 @@
+NEXTJS_ENV=development
+# Password checked by proxy.ts for the /stats page. Pick any local value —
+# in production this is set with `wrangler secret put STATS_PASSWORD` instead.
+STATS_PASSWORD=dev-stats-local

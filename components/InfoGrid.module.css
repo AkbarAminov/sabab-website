@@ -1,9 +1,15 @@
 .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   column-gap: var(--gap-col-x);
   row-gap: var(--gap-row-y);
   padding: clamp(57px, 10.4vw, 125px) var(--space-page-x) 0;
+}
+
+@media (min-width: 768px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (min-width: 1024px) {

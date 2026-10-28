@@ -14,7 +14,6 @@
   --fs-lang: clamp(10px, 0.1282vw + 9.5385px, 12px);
   --fs-col-heading: clamp(10px, 0.0962vw + 9.6538px, 11.5px);
   --fs-body: clamp(13.5px, 0.1923vw + 12.8077px, 16.5px);
-  --fs-mobile-cta: clamp(11px, 0.1282vw + 10.5385px, 13px);
 
   --space-page-x: clamp(20px, 2.8205vw + 9.8462px, 64px);
   --space-page-y-top: clamp(18px, 1.4103vw + 12.9231px, 40px);

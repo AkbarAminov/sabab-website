@@ -10,10 +10,7 @@ export interface Dictionary {
   header: {
     logoAlt: string;
     logoCtaAria: string;
-    portfolio: {
-      full: string;
-      short: string;
-    };
+    portfolio: string;
     langSwitch: {
       aria: string;
     };
@@ -36,7 +33,11 @@ export interface Dictionary {
   };
   sababWord: {
     ariaLabel: string;
-    mobileCta: string;
+  };
+  soon: {
+    title: string;
+    body: string;
+    backHome: string;
   };
 }
 
@@ -51,10 +52,7 @@ const ru: Dictionary = {
   header: {
     logoAlt: "sabab brand bureau",
     logoCtaAria: "Sabab — свяжитесь с нами в Instagram",
-    portfolio: {
-      full: "Посмотреть портфолио",
-      short: "Портфолио",
-    },
+    portfolio: "Посмотреть портфолио",
     langSwitch: {
       aria: "Выбор языка",
     },
@@ -77,7 +75,11 @@ const ru: Dictionary = {
   },
   sababWord: {
     ariaLabel: "Sabab — написать нам в Instagram",
-    mobileCta: "Написать нам →",
+  },
+  soon: {
+    title: "Скоро здесь",
+    body: "Эта презентация ещё не загружена. Загляните позже.",
+    backHome: "На главную",
   },
 };
 
@@ -91,10 +93,7 @@ const en: Dictionary = {
   header: {
     logoAlt: "sabab brand bureau",
     logoCtaAria: "Sabab — get in touch on Instagram",
-    portfolio: {
-      full: "View portfolio",
-      short: "Portfolio",
-    },
+    portfolio: "View portfolio",
     langSwitch: {
       aria: "Language",
     },
@@ -117,7 +116,11 @@ const en: Dictionary = {
   },
   sababWord: {
     ariaLabel: "Sabab — message us on Instagram",
-    mobileCta: "Message us →",
+  },
+  soon: {
+    title: "Coming soon",
+    body: "This presentation hasn't been uploaded yet. Check back soon.",
+    backHome: "Back home",
   },
 };
 
@@ -131,10 +134,7 @@ const uz: Dictionary = {
   header: {
     logoAlt: "sabab brand bureau",
     logoCtaAria: "Sabab — Instagramda bog'laning",
-    portfolio: {
-      full: "Portfolioni ko'rish",
-      short: "Portfolio",
-    },
+    portfolio: "Portfolioni ko'rish",
     langSwitch: {
       aria: "Til tanlash",
     },
@@ -157,7 +157,11 @@ const uz: Dictionary = {
   },
   sababWord: {
     ariaLabel: "Sabab — Instagramda yozing",
-    mobileCta: "Yozing →",
+  },
+  soon: {
+    title: "Tez orada",
+    body: "Bu taqdimot hali yuklanmagan. Birozdan so'ng qayta tekshiring.",
+    backHome: "Bosh sahifaga",
   },
 };
 

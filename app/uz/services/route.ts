@@ -1,5 +1,5 @@
 import { servePdf } from "@/lib/pdf";
 
-export async function GET() {
-  return servePdf("services", "uz");
+export async function GET(request: Request) {
+  return servePdf("services", "uz", request);
 }

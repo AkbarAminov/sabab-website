@@ -1,8 +1,5 @@
 // Locale-independent contact data. Phone numbers, handles and the domain are
 // the same in RU and EN, so they live here instead of the dictionary.
-//
-// ⚠️ PLACEHOLDERS — confirm before launch (see README "Перед запуском"):
-//  - Site domain is assumed from the email address.
 
 export const SITE_URL = "https://sababbranding.com";
 
