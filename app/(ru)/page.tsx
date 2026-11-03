@@ -1,6 +1,18 @@
 import HomePage from "@/components/HomePage";
 import { getDictionary } from "@/lib/dictionary";
+import { organizationJsonLd } from "@/lib/organizationJsonLd";
 
 export default function Page() {
-  return <HomePage dict={getDictionary("ru")} locale="ru" />;
+  const dict = getDictionary("ru");
+  const jsonLd = organizationJsonLd(dict, "ru");
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
+      />
+      <HomePage dict={dict} locale="ru" />
+    </>
+  );
 }

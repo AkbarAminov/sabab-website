@@ -17,6 +17,18 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: dict.meta.title,
   description: dict.meta.description,
+  keywords: [
+    "брендинговое агентство",
+    "бренд-бюро",
+    "разработка бренда",
+    "айдентика",
+    "фирменный стиль",
+    "создание логотипа",
+    "брендинг Ташкент",
+    "брендинг Узбекистан",
+    "Sabab Brand Bureau",
+  ],
+  manifest: "/site.webmanifest",
   alternates: {
     languages: { ru: "/", uz: "/uz", en: "/en" },
   },
