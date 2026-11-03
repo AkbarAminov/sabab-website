@@ -82,8 +82,9 @@
 .triggerBar {
   aspect-ratio: 1 / 1;
   height: 100%;
-  padding: 0;
+  padding: 10px;
   flex: 0 0 auto;
+  font-size: clamp(13px, 3.5vw, 15px);
 }
 
 .triggerBar .caret {

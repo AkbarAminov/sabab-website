@@ -13,6 +13,12 @@
 @media (max-width: 767px) {
   .grid {
     flex: 1 1 auto;
+    /* Without this, CSS Grid's default align-content (normal, which computes
+       to stretch here) spreads the flex-grown extra height *between* the
+       three rows instead of leaving it after the last one — huge gaps
+       between "Кто мы"/"Услуги"/"Контакты" instead of just empty space
+       below Контакты before the bottom bar. */
+    align-content: start;
   }
 }
 
