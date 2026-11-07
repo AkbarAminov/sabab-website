@@ -12,7 +12,7 @@
   .mobileSababTop {
     display: block;
     width: 100%;
-    padding: env(safe-area-inset-top, 0px) clamp(20px, 5vw, 24px) 0;
+    padding: calc(env(safe-area-inset-top, 0px) + 10px) clamp(20px, 5vw, 24px) 0;
   }
 }
 

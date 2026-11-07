@@ -19,6 +19,9 @@
        between "Кто мы"/"Услуги"/"Контакты" instead of just empty space
        below Контакты before the bottom bar. */
     align-content: start;
+    /* Guarantees breathing room before the bottom bar even when content is
+       tall enough to leave no flex-grow slack (see align-content above). */
+    padding-bottom: 18px;
   }
 }
 

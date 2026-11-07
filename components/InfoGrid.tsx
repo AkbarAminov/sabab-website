@@ -31,6 +31,7 @@ export default function InfoGrid({
       <div className="reveal" style={delayStyle(startDelayIndex + 1)}>
         <h2 className={styles.heading}>{services.heading}</h2>
         <div className={styles.servicesCol}>
+          <p className={styles.lead}>{services.lead}</p>
           <p className={styles.body}>{services.body}</p>
           <PdfLink kind="services" locale={locale} className={interactive.arrowLink}>
             <span className={interactive.text}>{services.linkLabelText}</span>
@@ -43,6 +44,7 @@ export default function InfoGrid({
 
       <div className="reveal" style={delayStyle(startDelayIndex + 2)}>
         <h2 className={styles.heading}>{contacts.heading}</h2>
+        <p className={styles.lead}>{contacts.lead}</p>
         <ContactLinks dict={dict} />
       </div>
     </section>
