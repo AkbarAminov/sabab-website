@@ -244,6 +244,7 @@ export default function LeadPopup({
                 required
                 maxLength={200}
                 autoComplete="tel"
+                inputMode="text"
               />
             </div>
 
