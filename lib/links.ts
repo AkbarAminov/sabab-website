@@ -19,3 +19,7 @@ export function pdfHref(kind: PdfKind, locale: Locale): string {
 export function homeHref(locale: Locale): string {
   return locale === "ru" ? "/" : `/${locale}`;
 }
+
+export function privacyHref(locale: Locale): string {
+  return locale === "ru" ? "/privacy" : `/${locale}/privacy`;
+}

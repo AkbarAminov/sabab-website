@@ -38,6 +38,23 @@
   background: var(--cursor-interactive-fill);
 }
 
+/* Over a light-background area (e.g. the request popup — see
+   CustomCursor.tsx's data-cursor-light-bg) the default cream dot would be
+   invisible, so it inverts to dark there. Hovering a link/button still
+   darkens further via .interactive above — both are dark shades, so no
+   extra override is needed for that combination. */
+.lightBg {
+  background: var(--popup-ink);
+}
+
+/* ...except that area's own dark-filled buttons (data-cursor-invert — the
+   popup's submit/close buttons), where .interactive's dark fill would be
+   dark-on-dark. Doubled selector reliably wins over .interactive/.lightBg
+   regardless of source order. */
+.invertLight.invertLight {
+  background: var(--cream);
+}
+
 .expanded {
   width: var(--cursor-dot-size);
   height: var(--cursor-dot-size);

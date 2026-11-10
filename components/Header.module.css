@@ -39,10 +39,22 @@
   flex: 0 0 auto;
 }
 
-/* Below 768px the navbar gives way to the mobile layout (giant word up top,
-   portfolio + language bar pinned to the bottom) — see HomePage.tsx. */
+/* Below 768px the header stays (logo + language switcher), but the
+   "ОСТАВИТЬ ЗАЯВКУ" button moves to the full-width bar pinned to the bottom
+   of the page instead (see MobileBottomBar.tsx). Doubled selector: bumps
+   specificity above interactive.module.css's .btnSolidCream (both are
+   plain single-class rules, so without this, whichever CSS module happens
+   to be ordered later in the bundle wins — not reliable). */
 @media (max-width: 767px) {
-  .header {
+  .cta.cta {
     display: none;
+  }
+
+  /* Matches Hero's mobile left padding (--space-page-x-mobile, not the
+     desktop-only --space-page-x used above) so the logo and the hero text
+     share the same left edge instead of the logo sitting further in. */
+  .header {
+    padding-left: var(--space-page-x-mobile);
+    padding-right: var(--space-page-x-mobile);
   }
 }

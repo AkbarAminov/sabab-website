@@ -4,8 +4,8 @@ import { useEffect, useRef } from "react";
 import type { CSSProperties } from "react";
 import styles from "./SababWord.module.css";
 import { SABAB_PATHS, SABAB_VIEWBOX } from "@/lib/sababPaths";
-import { INSTAGRAM_URL } from "@/lib/constants";
 import { useFineHover, useReducedMotion } from "@/lib/useMediaQuery";
+import { useLeadPopup } from "./LeadPopup/LeadPopupContext";
 import type { Dictionary } from "@/lib/dictionary";
 
 const MAX_DEPTH = 11; // px, within the 8–12px the brief asks for
@@ -21,8 +21,9 @@ export default function SababWord({
   const fineHover = useFineHover();
   const reducedMotion = useReducedMotion();
   const wellActive = fineHover && !reducedMotion;
+  const { open } = useLeadPopup();
 
-  const containerRef = useRef<HTMLAnchorElement>(null);
+  const containerRef = useRef<HTMLButtonElement>(null);
   const pathRefs = useRef<(SVGPathElement | null)[]>([]);
   const rafPending = useRef(false);
   const lastEvent = useRef<{ x: number } | null>(null);
@@ -80,11 +81,10 @@ export default function SababWord({
   }, [wellActive]);
 
   return (
-    <a
+    <button
       ref={containerRef}
-      href={INSTAGRAM_URL}
-      target="_blank"
-      rel="noopener noreferrer"
+      type="button"
+      onClick={open}
       className={styles.link}
       style={delayStyle}
       aria-label={dict.sababWord.ariaLabel}
@@ -101,6 +101,6 @@ export default function SababWord({
           />
         ))}
       </svg>
-    </a>
+    </button>
   );
 }

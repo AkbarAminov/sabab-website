@@ -2,3 +2,12 @@ NEXTJS_ENV=development
 # Password checked by proxy.ts for the /stats page. Pick any local value —
 # in production this is set with `wrangler secret put STATS_PASSWORD` instead.
 STATS_PASSWORD=dev-stats-local
+
+# Lead popup (app/api/lead/route.ts) — all four optional locally. Left empty,
+# the route still saves leads to D1; it just skips the Telegram notification
+# and Turnstile verification (fail-open, see the route for details). In
+# production these are set with `wrangler secret put <NAME>` instead.
+TELEGRAM_BOT_TOKEN=
+TELEGRAM_CHAT_ID=
+TURNSTILE_SITE_KEY=
+TURNSTILE_SECRET_KEY=

@@ -1,10 +1,12 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import HomePage from "@/components/HomePage";
 import { getDictionary } from "@/lib/dictionary";
 import { organizationJsonLd } from "@/lib/organizationJsonLd";
 
-export default function Page() {
+export default async function Page() {
   const dict = getDictionary("en");
   const jsonLd = organizationJsonLd(dict, "en");
+  const { env } = await getCloudflareContext({ async: true });
 
   return (
     <>
@@ -12,7 +14,7 @@ export default function Page() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
       />
-      <HomePage dict={dict} locale="en" />
+      <HomePage dict={dict} locale="en" turnstileSiteKey={env.TURNSTILE_SITE_KEY} />
     </>
   );
 }

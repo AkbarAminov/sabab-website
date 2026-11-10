@@ -17,16 +17,57 @@ interface OpenRow {
   country: string;
 }
 
-export default async function StatsPage() {
+interface LeadRow {
+  created_at: string;
+  name: string;
+  company: string | null;
+  contact: string;
+  locale: string;
+  country: string | null;
+  telegram_status: string;
+}
+
+export default async function StatsPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ tab?: string }>;
+}) {
+  const { tab } = await searchParams;
+  const activeTab = tab === "leads" ? "leads" : "pdf";
   const { env } = await getCloudflareContext({ async: true });
 
+  return (
+    <main className={styles.page}>
+      <h1 className={styles.title}>Stats</h1>
+
+      <nav className={styles.tabs}>
+        <a href="?tab=pdf" className={`${styles.tab} ${activeTab === "pdf" ? styles.tabActive : ""}`}>
+          PDF
+        </a>
+        <a href="?tab=leads" className={`${styles.tab} ${activeTab === "leads" ? styles.tabActive : ""}`}>
+          Заявки
+        </a>
+      </nav>
+
+      {activeTab === "pdf" ? (
+        <PdfTab db={env.DB} />
+      ) : (
+        <LeadsTab db={env.DB} />
+      )}
+    </main>
+  );
+}
+
+async function PdfTab({ db }: { db: D1Database }) {
   const [summary, recent] = await Promise.all([
-    env.DB.prepare(
-      "SELECT file, locale, country, COUNT(*) AS count FROM opens GROUP BY file, locale, country ORDER BY count DESC",
-    )
+    db
+      .prepare(
+        "SELECT file, locale, country, COUNT(*) AS count FROM opens GROUP BY file, locale, country ORDER BY count DESC",
+      )
       .all<SummaryRow>()
       .then((r) => r.results),
-    env.DB.prepare("SELECT opened_at, file, locale, country FROM opens ORDER BY opened_at DESC LIMIT 50")
+    db
+      .prepare("SELECT opened_at, file, locale, country FROM opens ORDER BY opened_at DESC LIMIT 50")
       .all<OpenRow>()
       .then((r) => r.results),
   ]);
@@ -34,8 +75,8 @@ export default async function StatsPage() {
   const total = summary.reduce((sum, row) => sum + row.count, 0);
 
   return (
-    <main className={styles.page}>
-      <h1 className={styles.title}>PDF opens — {total} total</h1>
+    <>
+      <h2 className={styles.sectionTitle}>PDF opens — {total} total</h2>
 
       <h2 className={styles.sectionTitle}>By file / language / country</h2>
       {summary.length === 0 ? (
@@ -88,6 +129,50 @@ export default async function StatsPage() {
           </tbody>
         </table>
       )}
-    </main>
+    </>
+  );
+}
+
+async function LeadsTab({ db }: { db: D1Database }) {
+  const { results: leads } = await db
+    .prepare(
+      "SELECT created_at, name, company, contact, locale, country, telegram_status FROM leads ORDER BY created_at DESC LIMIT 50",
+    )
+    .all<LeadRow>();
+
+  return (
+    <>
+      <h2 className={styles.sectionTitle}>Recent leads — {leads.length}</h2>
+      {leads.length === 0 ? (
+        <p className={styles.empty}>No leads yet.</p>
+      ) : (
+        <table className={styles.table}>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Name</th>
+              <th>Company</th>
+              <th>Contact</th>
+              <th>Language</th>
+              <th>Country</th>
+              <th>Telegram</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leads.map((row, i) => (
+              <tr key={i}>
+                <td>{row.created_at}</td>
+                <td>{row.name}</td>
+                <td>{row.company || "—"}</td>
+                <td>{row.contact}</td>
+                <td>{row.locale}</td>
+                <td>{row.country || "—"}</td>
+                <td>{row.telegram_status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </>
   );
 }

@@ -1,0 +1,153 @@
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: clamp(22px, 2.4vw, 34px);
+  /* Deliberately NOT var(--space-page-x) here: that's the page's edge
+     gutter (used by Header/sababSection, which are edge-to-edge), but this
+     block is a centered, narrower column by design. Its horizontal padding
+     only needs to keep text off the screen edge in the in-between range
+     where the viewport is narrower than max-width — the actual "space from
+     the edges" look comes from max-width + margin: auto. Using the edge
+     gutter here would eat into .title's available wrap width and defeat
+     the two-line title layout. */
+  max-width: 1040px;
+  margin: 0 auto;
+  /* Top padding nudged further down in two passes (~7.5%, then another 15%
+     on top of that) than a plain vw value would give — desktop only, mobile
+     positions via justify-content: center below. */
+  padding: clamp(60px, 11.2vw, 136px) clamp(20px, 4vw, 40px) 0;
+}
+
+.title {
+  margin: 0;
+  /* Wide enough that the title wraps to two lines at desktop widths (as in
+     the mockup) instead of three — narrower than .hero itself so it isn't
+     fragile right at the wrap boundary. */
+  max-width: 900px;
+  font-size: clamp(27px, 1.82vw + 20px, 55px);
+  font-weight: 500;
+  line-height: 1.15;
+}
+
+.title em {
+  font-style: italic;
+}
+
+/* "причина" ↔ "sabab" — the whole brand pun (the word literally means
+   "reason") made tangible: hovering the emphasis word dissolves it into the
+   wordmark and back. .morphWord sets the box's size (the untranslated
+   "sabab" alt is shorter in every locale, so it never overflows); .morphAlt
+   is lifted out of flow and cross-fades in over it, so nothing in the rest
+   of the sentence reflows on hover. */
+.morph {
+  position: relative;
+  display: inline-block;
+}
+
+.morphWord {
+  display: inline-block;
+  transition: opacity 0.45s var(--ease), transform 0.45s var(--ease), filter 0.45s var(--ease);
+}
+
+.morphAlt {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  transform: translateY(10px);
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.morph:hover .morphWord:not(.morphAlt) {
+  opacity: 0;
+  transform: translateY(-10px);
+  filter: blur(6px);
+}
+
+.morph:hover .morphAlt {
+  opacity: 1;
+  transform: translateY(0);
+  filter: blur(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .morphWord {
+    transition: opacity 0.15s linear;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+
+.lead {
+  margin: 0;
+  max-width: 680px;
+  font-size: clamp(15px, 0.31vw + 13.7px, 19px);
+  font-weight: 400;
+  line-height: 1.55;
+  opacity: 0.85;
+}
+
+.actions {
+  display: flex;
+  gap: clamp(10px, 1vw, 16px);
+}
+
+/* Gives "НАШИ УСЛУГИ" and "ПОРТФОЛИО" the same width rather than letting
+   each hug its own (different-length) label. */
+.actions a {
+  min-width: clamp(112px, 10.4vw, 201px);
+}
+
+.mobileInvite {
+  display: none;
+}
+
+.contacts {
+  font-size: var(--fs-body);
+}
+
+@media (max-width: 767px) {
+  .hero {
+    /* The page's only growable flex child on mobile (the desktop word that
+       normally does this job is display: none there) — grows to fill the
+       space between the header and MobileBottomBar, and centers its
+       content vertically within that space rather than pinning it to the
+       top. */
+    flex: 1 1 auto;
+    justify-content: center;
+    align-items: flex-start;
+    text-align: left;
+    max-width: none;
+    margin: 0;
+    gap: clamp(24px, 7vw, 36px);
+    padding: clamp(28px, 7vw, 40px) var(--space-page-x-mobile) 18px;
+  }
+
+  .title,
+  .lead {
+    max-width: none;
+  }
+
+  .actions {
+    width: 100%;
+  }
+
+  .actions > a {
+    flex: 1 1 0;
+    min-width: 0;
+    padding: 0.9em 0.5em;
+    font-size: clamp(11px, 2.6vw, 13px);
+  }
+
+  .mobileInvite {
+    display: block;
+    margin: 0;
+    font-size: var(--fs-body);
+    font-weight: 700;
+    line-height: 1.4;
+  }
+}

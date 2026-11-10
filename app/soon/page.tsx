@@ -1,5 +1,6 @@
 import styles from "./page.module.css";
 import interactive from "@/components/interactive.module.css";
+import CustomCursor from "@/components/CustomCursor";
 import { getDictionary, type Locale } from "@/lib/dictionary";
 import { ALL_LOCALES, homeHref } from "@/lib/links";
 
@@ -27,6 +28,7 @@ export default async function SoonPage({
           {dict.soon.backHome}
         </a>
       </div>
+      <CustomCursor />
     </main>
   );
 }

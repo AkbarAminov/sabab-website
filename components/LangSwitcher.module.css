@@ -2,8 +2,15 @@
   position: relative;
 }
 
-.trigger {
+/* Same height/font as every other button (shared --btn-pad-y/--fs-cta),
+   but narrower — a language pill doesn't need the same wide horizontal
+   padding as a call-to-action label. Doubled selector: reliably wins over
+   interactive.module.css's .btn regardless of which CSS module the bundler
+   happens to order later. */
+.trigger.trigger {
   gap: 0.5em;
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .caret {
@@ -20,6 +27,12 @@
   transform: rotate(-135deg) translateY(15%);
 }
 
+/* Always in the DOM (not conditionally mounted) so closing can fade out
+   instead of vanishing instantly — opacity/transform animate on both ways,
+   while "visibility" (not itself animatable) only flips to hidden once that
+   transition finishes, so the menu stays genuinely closed/unfocusable
+   immediately via pointer-events but keeps rendering just long enough to
+   fade. */
 .menu {
   position: absolute;
   top: calc(100% + 8px);
@@ -32,6 +45,21 @@
   background: var(--cream);
   border-radius: 2px;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition:
+    opacity var(--dur) var(--ease),
+    transform var(--dur) var(--ease),
+    visibility var(--dur);
+}
+
+.menuOpen {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0);
 }
 
 .option {
@@ -74,28 +102,4 @@
 
 .optionActive {
   font-weight: 700;
-}
-
-/* "bar" variant: used for the mobile bottom-bar trigger (square, opens
-   upward). Comes after the base rules above so it reliably wins the cascade
-   when both classes land on the same element, regardless of specificity. */
-.triggerBar {
-  aspect-ratio: 1 / 1;
-  height: 100%;
-  padding: 10px;
-  flex: 0 0 auto;
-  font-size: clamp(13px, 3.5vw, 15px);
-}
-
-.triggerBar .caret {
-  transform: rotate(-135deg) translateY(15%);
-}
-
-.triggerBar[aria-expanded="true"] .caret {
-  transform: rotate(45deg) translateY(-25%);
-}
-
-.menuUp {
-  top: auto;
-  bottom: calc(100% + 8px);
 }

@@ -12,6 +12,10 @@
 .link {
   display: block;
   width: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  text-align: left;
   line-height: 0;
   animation: sabab-reveal 0.7s var(--ease) both;
   animation-delay: var(--reveal-delay, 0ms);

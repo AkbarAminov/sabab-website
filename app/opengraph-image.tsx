@@ -18,7 +18,7 @@ export default async function Image() {
           background: "linear-gradient(160deg, #782F1E 0%, #4A160C 100%)",
         }}
       >
-        <svg width={820} height={198} viewBox={SABAB_VIEWBOX} fill="#EAE2D8">
+        <svg width={820} height={198} viewBox={SABAB_VIEWBOX} fill="#DED0C1">
           {SABAB_PATHS.map((d, i) => (
             <path key={i} d={d} />
           ))}

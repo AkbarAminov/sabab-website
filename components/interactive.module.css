@@ -9,10 +9,10 @@
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  padding: 0.75em 1.1em;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
   border: 1px solid var(--cream);
   color: var(--cream);
-  font-size: var(--fs-button);
+  font-size: var(--fs-cta);
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -43,6 +43,68 @@
 }
 
 .btn:focus-visible {
+  outline-offset: 3px;
+}
+
+/* ---- Solid cream button: always-filled, brick text. Header/mobile-bar CTA
+   ("ОСТАВИТЬ ЗАЯВКУ") — unlike .btn, this one isn't meant to look like a
+   secondary action, so it skips the hover-fill reveal and stays solid. ---- */
+.btnSolidCream {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border: 1px solid var(--cream);
+  background: var(--cream);
+  color: var(--brick-top);
+  font-size: var(--fs-cta);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.btnSolidCream:hover,
+.btnSolidCream:focus-visible {
+  opacity: 0.85;
+}
+
+.btnSolidCream:focus-visible {
+  outline-offset: 3px;
+}
+
+/* ---- Solid dark button: brick fill, cream text. Popup submit. ---- */
+.btnSolidDark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: var(--btn-pad-y) var(--btn-pad-x);
+  border: 1px solid var(--popup-ink);
+  background: var(--popup-ink);
+  color: var(--cream);
+  font-size: var(--fs-cta);
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity var(--dur) var(--ease);
+}
+
+.btnSolidDark:hover,
+.btnSolidDark:focus-visible {
+  opacity: 0.85;
+}
+
+.btnSolidDark:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.btnSolidDark:focus-visible {
   outline-offset: 3px;
 }
 

@@ -10,7 +10,11 @@ const LERP = 0.2;
  * Global, single-instance cursor replacement — a 20px cream circle that
  * tracks the pointer, shrinks + darkens over any link/button, and grows
  * into a plate with an arrow icon only over the sabab word (the one element
- * that sets `data-cursor-arrow`). Position tracking (this component) and
+ * that sets `data-cursor-arrow`). Inverted over light backgrounds (any
+ * element that sets `data-cursor-light-bg`, e.g. the request popup): dark by
+ * default there, back to the normal cream over that area's own buttons
+ * (dark-filled), so the dot stays visible either way. Position tracking
+ * (this component) and
  * visual state (CSS classes below) are deliberately split across two nested
  * elements: the outer one gets its transform written every animation frame,
  * so a CSS transition on the same property for the inner one's hover/press
@@ -27,6 +31,8 @@ export default function CustomCursor() {
   const wrapRef = useRef<HTMLDivElement>(null);
   const [expanded, setExpanded] = useState(false);
   const [isInteractive, setIsInteractive] = useState(false);
+  const [onLightBg, setOnLightBg] = useState(false);
+  const [invertLight, setInvertLight] = useState(false);
   const [pressed, setPressed] = useState(false);
   const [appeared, setAppeared] = useState(false);
 
@@ -47,6 +53,9 @@ export default function CustomCursor() {
       const el = e.target as Element | null;
       const sababEl = el?.closest("[data-cursor-arrow]") ?? null;
 
+      setOnLightBg(Boolean(el?.closest("[data-cursor-light-bg]")));
+      setInvertLight(Boolean(el?.closest("[data-cursor-invert]")));
+
       if (sababEl) {
         setExpanded(true);
         setIsInteractive(false);
@@ -60,6 +69,8 @@ export default function CustomCursor() {
       setAppeared(false);
       setExpanded(false);
       setIsInteractive(false);
+      setOnLightBg(false);
+      setInvertLight(false);
       setPressed(false);
     }
 
@@ -113,6 +124,8 @@ export default function CustomCursor() {
     styles.cursor,
     appeared && styles.visible,
     isInteractive && styles.interactive,
+    onLightBg && styles.lightBg,
+    invertLight && styles.invertLight,
     expanded && styles.expanded,
     pressed && styles.pressed,
   ]

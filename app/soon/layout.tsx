@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "../globals.css";
-
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
-  display: "swap",
-});
+import { ceraPro } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Sabab Brand Bureau",
@@ -15,7 +9,7 @@ export const metadata: Metadata = {
 
 export default function SoonLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru" className={inter.variable}>
+    <html lang="ru" className={ceraPro.variable}>
       <body>{children}</body>
     </html>
   );

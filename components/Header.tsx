@@ -1,7 +1,7 @@
 import type { CSSProperties } from "react";
 import styles from "./Header.module.css";
 import interactive from "./interactive.module.css";
-import PdfLink from "./PdfLink";
+import OpenLeadPopupButton from "./LeadPopup/OpenLeadPopupButton";
 import LangSwitcher from "./LangSwitcher";
 import type { Dictionary, Locale } from "@/lib/dictionary";
 import { INSTAGRAM_URL } from "@/lib/constants";
@@ -30,9 +30,9 @@ export default function Header({
       </a>
 
       <div className={styles.actions}>
-        <PdfLink kind="portfolio" locale={locale} className={interactive.btn}>
-          {dict.header.portfolio}
-        </PdfLink>
+        <OpenLeadPopupButton className={`${interactive.btnSolidCream} ${styles.cta}`}>
+          {dict.header.cta}
+        </OpenLeadPopupButton>
 
         <LangSwitcher locale={locale} aria={dict.header.langSwitch.aria} />
       </div>

@@ -1,21 +1,19 @@
 import styles from "./MobileBottomBar.module.css";
 import interactive from "./interactive.module.css";
-import PdfLink from "./PdfLink";
-import LangSwitcher from "./LangSwitcher";
-import type { Dictionary, Locale } from "@/lib/dictionary";
+import OpenLeadPopupButton from "./LeadPopup/OpenLeadPopupButton";
+import type { Dictionary } from "@/lib/dictionary";
 
 /**
- * Below 768px only: a single-row bar pinned to the bottom of the page by
- * being the last flex child (not position: fixed — see HomePage.module.css),
- * replacing the desktop header's portfolio button + language switcher.
+ * Below 768px only: a single full-width "ОСТАВИТЬ ЗАЯВКУ" button pinned to
+ * the bottom of the page by being the last flex child (not position: fixed
+ * — see HomePage.module.css).
  */
-export default function MobileBottomBar({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+export default function MobileBottomBar({ dict }: { dict: Dictionary }) {
   return (
     <div className={styles.bar}>
-      <PdfLink kind="portfolio" locale={locale} className={`${interactive.btn} ${styles.portfolioBtn}`}>
-        {dict.header.portfolio}
-      </PdfLink>
-      <LangSwitcher locale={locale} aria={dict.header.langSwitch.aria} variant="bar" />
+      <OpenLeadPopupButton className={`${interactive.btnSolidCream} ${styles.cta}`}>
+        {dict.header.cta}
+      </OpenLeadPopupButton>
     </div>
   );
 }

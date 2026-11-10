@@ -1,15 +1,9 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import "../globals.css";
 import { getDictionary } from "@/lib/dictionary";
 import { SITE_URL } from "@/lib/constants";
-
-const inter = Inter({
-  subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
-  display: "swap",
-});
+import { ceraPro } from "@/lib/fonts";
 
 const dict = getDictionary("en");
 
@@ -50,7 +44,7 @@ export const metadata: Metadata = {
 
 export default function EnRootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={ceraPro.variable}>
       <body>
         {children}
         <Analytics />

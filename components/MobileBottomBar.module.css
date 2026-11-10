@@ -4,32 +4,18 @@
 
 @media (max-width: 767px) {
   .bar {
-    display: flex;
-    align-items: stretch;
-    gap: 12px;
+    display: block;
     padding: 12px 20px calc(env(safe-area-inset-bottom, 0px) + 30px);
   }
 }
 
-.portfolioBtn {
-  flex: 1 1 auto;
-  /* Lets the button actually shrink to fit next to the square language
-     button instead of blowing out the row — flex items default to a content
-     min-width, which with `white-space: nowrap` text never shrinks at all. */
-  min-width: 0;
-  justify-content: center;
-}
-
-/* Higher-specificity descendant selector so these reliably win over .btn's
-   own `padding`/`font-size` regardless of CSS Modules bundling order — a
-   taller, more prominent tap target whose label scales fluidly with it
-   rather than staying pinned to the small header button's type size. The
-   font clamp tops out lower than it might look like it needs to on a ruler:
-   it's sized against the longest label (Russian, "Посмотреть портфолио")
-   fitting next to the square language button at 375px wide, not in
-   isolation. */
-.bar .portfolioBtn {
-  padding-top: 20px;
-  padding-bottom: 20px;
-  font-size: clamp(11px, 3vw, 13px);
+/* Only the shape (full-width block) needs overriding — size comes from
+   .btnSolidCream's shared --btn-pad-y/--btn-pad-x/--fs-cta, same as every
+   other CTA button on the site. Doubled selector: reliably wins over
+   interactive.module.css's .btnSolidCream regardless of which CSS module
+   the bundler happens to order later (equal specificity otherwise makes
+   that a toss-up — see Header.module.css's .cta for the same fix). */
+.cta.cta {
+  display: block;
+  width: 100%;
 }

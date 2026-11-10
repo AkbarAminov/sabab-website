@@ -1,41 +1,51 @@
 import styles from "./HomePage.module.css";
 import Header from "./Header";
-import InfoGrid from "./InfoGrid";
+import Hero from "./Hero";
 import SababWord from "./SababWord";
 import MobileBottomBar from "./MobileBottomBar";
 import CustomCursor from "./CustomCursor";
+import PageLoader from "./PageLoader";
+import { LeadPopupProvider } from "./LeadPopup/LeadPopupContext";
 import type { Dictionary, Locale } from "@/lib/dictionary";
 
 /**
- * The page layout. Desktop/tablet (≥768px, unchanged): navbar, three-column
- * text block, giant sabab word pinned to the bottom. Below 768px the layout
- * is rearranged instead of just scaled: the giant word moves to the top
- * (replacing the navbar — see .mobileSababTop/Header's own 767px rule), the
- * same three-column block stays in the middle, and a bottom bar with the
- * portfolio button + language switcher replaces the desktop word slot (see
- * MobileBottomBar / .sababSection's 767px rule). Both variants of the word
- * and both variants of the portfolio/language controls render in the DOM at
- * all times — CSS `display: none` toggles which set shows, so there's no
- * client-side breakpoint check and therefore no hydration flash.
+ * The page layout. Desktop/tablet (≥768px): header → centered manifesto
+ * block (Hero) → giant "sabab" word pinned to the bottom. Below 768px the
+ * giant word is dropped entirely and a full-width "ОСТАВИТЬ ЗАЯВКУ" button
+ * (MobileBottomBar) is pinned to the bottom instead — both are last flex
+ * children of `.page`, not position: fixed, so they push down naturally
+ * (see HomePage.module.css / MobileBottomBar.module.css's display toggles).
+ *
+ * LeadPopupProvider wraps everything so the request popup can be opened
+ * from the header CTA, the mobile bottom bar, or the sabab word itself,
+ * without threading an onClick prop through each of those components.
  */
-export default function HomePage({ dict, locale }: { dict: Dictionary; locale: Locale }) {
+export default function HomePage({
+  dict,
+  locale,
+  turnstileSiteKey,
+}: {
+  dict: Dictionary;
+  locale: Locale;
+  turnstileSiteKey?: string;
+}) {
   return (
-    <div className={styles.page}>
-      <Header dict={dict} locale={locale} delayIndex={0} />
+    <LeadPopupProvider dict={dict} locale={locale} turnstileSiteKey={turnstileSiteKey}>
+      <div className={styles.page}>
+        <Header dict={dict} locale={locale} delayIndex={0} />
 
-      <div className={styles.mobileSababTop}>
-        <SababWord dict={dict} delayIndex={0} />
+        <Hero dict={dict} locale={locale} startDelayIndex={1} />
+
+        <div className={styles.sababSection}>
+          <SababWord dict={dict} delayIndex={6} />
+        </div>
+
+        <MobileBottomBar dict={dict} />
+
+        <CustomCursor />
       </div>
 
-      <InfoGrid dict={dict} locale={locale} startDelayIndex={1} />
-
-      <div className={styles.sababSection}>
-        <SababWord dict={dict} delayIndex={4} />
-      </div>
-
-      <MobileBottomBar dict={dict} locale={locale} />
-
-      <CustomCursor />
-    </div>
+      <PageLoader />
+    </LeadPopupProvider>
   );
 }

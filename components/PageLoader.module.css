@@ -1,0 +1,50 @@
+@keyframes loader-pulse {
+  0%,
+  100% {
+    opacity: 0.85;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(to bottom, var(--brick-top), var(--brick-bottom));
+  opacity: 1;
+  transition: opacity 0.4s var(--ease);
+}
+
+.hiding {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.mark {
+  width: clamp(140px, 24vw, 280px);
+  height: auto;
+  /* ease-in-out (not the site's own --ease, an aggressive ease-out meant
+     for one-shot reveals) — symmetric slow-in/slow-out at both ends of
+     each half-cycle is what makes a looping breathe feel smooth instead of
+     snapping at the top/bottom of the pulse. */
+  animation: loader-pulse 1.8s ease-in-out infinite;
+}
+
+.mark path {
+  fill: var(--cream);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader {
+    transition: none;
+  }
+
+  .mark {
+    animation: none;
+  }
+}

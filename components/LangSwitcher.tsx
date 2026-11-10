@@ -6,17 +6,7 @@ import styles from "./LangSwitcher.module.css";
 import { ALL_LOCALES, LOCALE_LABELS, homeHref } from "@/lib/links";
 import type { Locale } from "@/lib/dictionary";
 
-export default function LangSwitcher({
-  locale,
-  aria,
-  variant = "header",
-}: {
-  locale: Locale;
-  aria: string;
-  /** "header": desktop/tablet nav, opens down. "bar": mobile bottom bar,
-   *  square trigger, opens up. */
-  variant?: "header" | "bar";
-}) {
+export default function LangSwitcher({ locale, aria }: { locale: Locale; aria: string }) {
   const [open, setOpen] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
 
@@ -40,16 +30,11 @@ export default function LangSwitcher({
     };
   }, [open]);
 
-  const triggerClassName = [interactive.btn, styles.trigger, variant === "bar" && styles.triggerBar]
-    .filter(Boolean)
-    .join(" ");
-  const menuClassName = [styles.menu, variant === "bar" && styles.menuUp].filter(Boolean).join(" ");
-
   return (
     <div className={styles.wrap} ref={rootRef}>
       <button
         type="button"
-        className={triggerClassName}
+        className={`${interactive.btn} ${styles.trigger}`}
         aria-haspopup="listbox"
         aria-expanded={open}
         aria-label={aria}
@@ -59,26 +44,24 @@ export default function LangSwitcher({
         <span className={styles.caret} aria-hidden="true" />
       </button>
 
-      {open && (
-        <ul className={menuClassName} role="listbox">
-          {ALL_LOCALES.map((code) => (
-            <li key={code} role="option" aria-selected={code === locale}>
-              {/* No onClick to close the menu here on purpose — picking a
-                  locale navigates to a different root layout (a full
-                  navigation), which already discards this component's state.
-                  Synchronously unmounting the link from its own click
-                  handler raced with that navigation on mobile browsers and
-                  could cancel it before the href was followed. */}
-              <a
-                href={homeHref(code)}
-                className={`${styles.option} ${code === locale ? styles.optionActive : ""}`}
-              >
-                {LOCALE_LABELS[code]}
-              </a>
-            </li>
-          ))}
-        </ul>
-      )}
+      <ul className={`${styles.menu} ${open ? styles.menuOpen : ""}`} role="listbox">
+        {ALL_LOCALES.map((code) => (
+          <li key={code} role="option" aria-selected={code === locale}>
+            {/* No onClick to close the menu here on purpose — picking a
+                locale navigates to a different root layout (a full
+                navigation), which already discards this component's state.
+                Synchronously unmounting the link from its own click
+                handler raced with that navigation on mobile browsers and
+                could cancel it before the href was followed. */}
+            <a
+              href={homeHref(code)}
+              className={`${styles.option} ${code === locale ? styles.optionActive : ""}`}
+            >
+              {LOCALE_LABELS[code]}
+            </a>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

@@ -1,0 +1,214 @@
+@keyframes popup-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes popup-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  overflow-y: auto;
+  background: rgb(0 0 0 / 0.61);
+  animation: popup-in var(--dur) var(--ease) both;
+}
+
+/* Mirrors popup-in — LeadPopupContext keeps the component mounted for
+   CLOSE_ANIMATION_MS (matching --dur) so this actually gets to play instead
+   of the whole popup just vanishing on unmount. */
+.closing {
+  animation: popup-out var(--dur) var(--ease) both;
+}
+
+.dialog {
+  position: relative;
+  width: 100%;
+  max-width: 630px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+  padding: clamp(28px, 4vw, 48px);
+  background: var(--cream);
+  color: var(--popup-ink);
+  /* The page sets color-scheme: dark globally (globals.css) for native UI
+     to match the dark brick background — inherited here it made the
+     checkbox render with dark-mode browser chrome (a dark box) even though
+     accent-color was white, since color-scheme governs the control's base
+     appearance and accent-color only tints the checked indicator. */
+  color-scheme: light;
+}
+
+/* globals.css's global :focus-visible outline is cream — on this card's own
+   cream background that reads as a faint lighter ring. Override the color
+   for every other focusable element in the popup to match its own palette;
+   the text fields go further below and drop the ring entirely in favor of
+   their own border lightening on focus. */
+.dialog :focus-visible {
+  outline-color: var(--popup-ink);
+}
+
+/* Anchored to the card's own corner (not the viewport) — a cream X at the
+   far screen edge read as unclear/disconnected from the card from a
+   distance, so it now sits at the edge of the card itself, in a muted gray
+   rather than the loud cream/dark palette. */
+.close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.close::before,
+.close::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 1.5px;
+  background: var(--popup-ink);
+}
+
+.close::before {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.close::after {
+  transform: translate(-50%, -50%) rotate(-45deg);
+}
+
+.title {
+  margin: 0 0 8px;
+  text-align: center;
+  font-size: clamp(20px, 1.3vw + 15px, 32px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.subtitle {
+  margin: 0 0 28px;
+  text-align: center;
+  font-size: clamp(15.5px, 0.33vw + 14.4px, 18px);
+  font-style: italic;
+  opacity: 0.8;
+}
+
+.field {
+  margin-bottom: 16px;
+}
+
+.field input {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--popup-ink);
+  background: transparent;
+  color: var(--popup-ink);
+  font: inherit;
+  font-size: 18px;
+  transition: border-color var(--dur) var(--ease);
+}
+
+/* No outline ring here (unlike the rest of the popup) — just the field's
+   own border lightening by 20%, which reads as the field itself
+   responding rather than a halo drawn around it. */
+.field input:focus-visible {
+  outline: none;
+  border-color: color-mix(in srgb, var(--popup-ink) 80%, white 20%);
+}
+
+.field input::placeholder {
+  color: var(--popup-ink);
+  opacity: 0.55;
+  font-style: italic;
+}
+
+.honeypot {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  left: -9999px;
+}
+
+.consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 4px 0 20px;
+  font-size: 14.5px;
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+/* Custom box instead of accent-color: transparent fill, a visible border at
+   all times, and a checkmark drawn only on :checked — appearance: none is
+   needed for that much control over the unchecked state, which accent-color
+   alone can't give (it only tints the checked indicator). */
+.consent input {
+  appearance: none;
+  -webkit-appearance: none;
+  flex: 0 0 auto;
+  position: relative;
+  margin: 2px 0 0;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--popup-ink);
+  border-radius: 2px;
+  background: transparent;
+}
+
+.consent input:checked::after {
+  content: "";
+  position: absolute;
+  left: 4.9px;
+  top: 3.1px;
+  width: 4.2px;
+  height: 7.8px;
+  border: solid var(--popup-ink);
+  border-width: 0 1.8px 1.8px 0;
+  transform: rotate(45deg);
+}
+
+.error {
+  margin: 0 0 16px;
+  font-size: 14.5px;
+  font-weight: 500;
+}
+
+.result {
+  padding: 8px 0;
+  text-align: center;
+}
+
+.resultBody {
+  margin: 12px 0 28px;
+  font-size: var(--fs-body);
+  opacity: 0.85;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay {
+    animation: none;
+  }
+}

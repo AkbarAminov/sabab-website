@@ -4,18 +4,6 @@
   flex-direction: column;
 }
 
-.mobileSababTop {
-  display: none;
-}
-
-@media (max-width: 767px) {
-  .mobileSababTop {
-    display: block;
-    width: 100%;
-    padding: calc(env(safe-area-inset-top, 0px) + 10px) clamp(20px, 5vw, 24px) 0;
-  }
-}
-
 .sababSection {
   position: relative;
   flex: 1 1 auto;

@@ -5,17 +5,37 @@
 :root {
   --brick-top: #782f1e;
   --brick-bottom: #4a160c;
-  --cream: #eae2d8;
+  /* The one light color on the site — never pure white. Used for text,
+     borders, button fills, the cursor dot, the sabab word, and the popup
+     background (see --popup-ink below for the popup's dark text color). */
+  --cream: #ded0c1;
+  --popup-ink: #4a1a12;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --dur: 0.35s;
 
   --fs-button: clamp(10px, 0.1282vw + 9.5385px, 12px);
   --fs-lang: clamp(10px, 0.1282vw + 9.5385px, 12px);
+  /* The one CTA button size, shared by every button on the site — including
+     the language switcher's trigger — so they're never out of sync (see
+     interactive.module.css's .btn/.btnSolidCream/.btnSolidDark and
+     LangSwitcher.module.css's .trigger). */
+  --btn-pad-y: 1.15em;
+  --btn-pad-x: 2.2em;
+  --fs-cta: clamp(11px, 0.35vw + 10.15px, 15px);
   --fs-col-heading: clamp(10px, 0.0962vw + 9.6538px, 11.5px);
-  --fs-body: clamp(13.5px, 0.1923vw + 12.8077px, 16.5px);
+  /* Running/body text (not headings, not buttons) — ~11% bigger per request. */
+  --fs-body: clamp(15px, 0.21vw + 14.2px, 18px);
 
-  --space-page-x: clamp(20px, 2.8205vw + 9.8462px, 64px);
+  /* More breathing room around the centered content than a typical page
+     gutter — this is a deliberate "space to the edges" choice, not a
+     generic responsive margin. Matches the mockup's own header inset
+     (~235px at 1920 — measured directly against design/1-desktop.png). */
+  --space-page-x: clamp(24px, 13.9vw - 26px, 240px);
+  /* Below 768px, Header/MobileBottomBar/Hero all use this exact value (not
+     --space-page-x, which only applies at desktop widths) so the logo and
+     the hero text share the same left edge instead of drifting apart. */
+  --space-page-x-mobile: clamp(20px, 5vw, 24px);
   --space-page-y-top: clamp(18px, 1.4103vw + 12.9231px, 40px);
 
   --gap-col-x: clamp(32px, 3.5897vw + 19.0771px, 88px);
@@ -48,10 +68,18 @@ body {
 
 body {
   margin: 0;
-  background: linear-gradient(to bottom, var(--brick-top), var(--brick-bottom));
-  background-attachment: fixed;
+  /* Brick gradient + the brand's tiled diagonal pattern (public/pattern.svg)
+     on top. The pattern's own fill-opacity (see the file) fades it toward
+     invisible against --brick-bottom and visible-but-subtle against the
+     lighter --brick-top — same effect the mockup shows (pattern reads near
+     the top, fades out by the bottom), without needing per-layer CSS
+     opacity (not supported for background-image layers). */
+  background-image: url("/pattern.svg"), linear-gradient(to bottom, var(--brick-top), var(--brick-bottom));
+  background-repeat: repeat, no-repeat;
+  background-position: top center, top center;
+  background-attachment: fixed, fixed;
   color: var(--cream);
-  font-family: var(--font-inter), -apple-system, "Helvetica Neue", Arial, sans-serif;
+  font-family: var(--font-cera), -apple-system, "Helvetica Neue", Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
