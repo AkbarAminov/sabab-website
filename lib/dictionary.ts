@@ -50,6 +50,7 @@ export interface Dictionary {
       bodyPrefix: string;
       telegramLinkText: string;
     };
+    rateLimited: string;
     close: string;
   };
   privacy: {
@@ -114,6 +115,7 @@ const ru: Dictionary = {
       bodyPrefix: "Не получилось отправить — ",
       telegramLinkText: "напишите нам в Telegram",
     },
+    rateLimited: "Слишком много попыток подряд — подождите немного и попробуйте снова.",
     close: "Закрыть",
   },
   privacy: {
@@ -178,6 +180,7 @@ const en: Dictionary = {
       bodyPrefix: "Couldn't send it — ",
       telegramLinkText: "message us on Telegram",
     },
+    rateLimited: "Too many attempts in a row — please wait a bit and try again.",
     close: "Close",
   },
   privacy: {
@@ -242,6 +245,7 @@ const uz: Dictionary = {
       bodyPrefix: "Yuborib bo'lmadi — ",
       telegramLinkText: "bizga Telegramda yozing",
     },
+    rateLimited: "Juda ko'p urinish — biroz kutib, qaytadan urinib ko'ring.",
     close: "Yopish",
   },
   privacy: {

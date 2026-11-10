@@ -20,7 +20,7 @@ declare global {
   }
 }
 
-type Status = "idle" | "sending" | "success" | "error";
+type Status = "idle" | "sending" | "success" | "error" | "rate_limited";
 
 export default function LeadPopup({
   onClose,
@@ -164,6 +164,10 @@ export default function LeadPopup({
           turnstileToken,
         }),
       });
+      if (res.status === 429) {
+        setStatus("rate_limited");
+        return;
+      }
       if (!res.ok) throw new Error(`status ${res.status}`);
       setStatus("success");
     } catch {
@@ -282,6 +286,8 @@ export default function LeadPopup({
                 </a>
               </p>
             )}
+
+            {status === "rate_limited" && <p className={styles.error}>{popup.rateLimited}</p>}
 
             <div ref={turnstileElRef} />
 

@@ -3,7 +3,10 @@ import { ALL_LOCALES } from "@/lib/links";
 import type { Locale } from "@/lib/dictionary";
 
 const RATE_LIMIT_WINDOW_MS = 10 * 60 * 1000;
-const RATE_LIMIT_MAX = 3;
+// Counts every attempt, valid or not, so a few mis-clicks while testing the
+// form shouldn't eat the same budget as actual spam — 5 is still a hard
+// stop for anything scripted.
+const RATE_LIMIT_MAX = 5;
 const MAX_FIELD_LENGTH = 200;
 
 interface LeadPayload {
